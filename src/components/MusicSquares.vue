@@ -70,4 +70,22 @@
         margin-top:3vh;
         margin-left: 2vw;
     }
+
+    @media (max-width: 600px) {
+        .MusicSquares {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .MusicSquares {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 </style>
