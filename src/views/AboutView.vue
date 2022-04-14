@@ -15,12 +15,15 @@
       <p>ID: {{ this.artistid }}</p>
     </div>
     <div class="extrainfo">
-        <div class="album" v-for="album in albums" :key="album.strAlbum">
-          <p>{{ album.strAlbum }}</p>
-          <p>{{ artist }}</p>
-          <p>{{ album.intYearReleased }}</p>
-          <img :src="album.strAlbumThumb" class="img-artist" />
-        </div>
+      <div class="album" v-for="album in albums" :key="album.strAlbum">
+        <!--<p>{{ album.strAlbum }}</p>
+        <p>{{ artist }}</p>
+        <p>{{ album.intYearReleased }}</p>-->
+        <img :src="album.strAlbumThumb" class="img-album" />
+        <p>{{ album.strAlbum }}</p>
+        <p>{{ album.intYearReleased }}</p>
+        
+      </div>
     </div>
   </div>
 </template>
@@ -45,15 +48,14 @@ export default {
       anio: "",
       mood: "",
       artistid: "",
-      albums: []
+      albums: [],
     };
   },
   methods: {
-    getImages:  function (url) {
+    getImages: function (url) {
       axios
         .get("https://www.theaudiodb.com/api/v1/json/2/search.php?s=" + url)
         .then((response) => {
-
           this.bio = response.data.artists[0].strBiographyEN;
           this.img = response.data.artists[0].strArtistThumb;
           this.style = response.data.artists[0].strStyle;
@@ -61,10 +63,12 @@ export default {
           this.mood = response.data.artists[0].strMood;
           this.artistid = response.data.artists[0].idArtist;
           axios
-            .get("https://theaudiodb.com/api/v1/json/2/album.php?i=" + this.artistid)
+            .get(
+              "https://theaudiodb.com/api/v1/json/2/album.php?i=" +
+                this.artistid
+            )
             .then((response) => {
-              this.albums = response.data.album
-              
+              this.albums = response.data.album;
             })
             .catch((error) => {
               console.log(error.message);
@@ -73,7 +77,7 @@ export default {
         .catch((error) => {
           console.log(error.message);
         });
-    }
+    },
   },
   created() {
     this.getImages(this.reqUrl);
@@ -94,59 +98,92 @@ body {
 }
 
 .about {
-  height: 90vh;
-  width: 100vw;
+  height: 92vh;
+  width: 100%;
   display: flex;
+  background-color: #f2e5d5;
 }
 .gralinfo {
-  height: 90vh;
-  width: 20vw;
-  background-color: #bf92b4;
+  height: 100%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 3vh;
-  color: #eaebeb;
-  border: 1px solid #fff;
+  color: #282828;
+  border: 5px solid #bf9a78;
+  transition: border 0.5s ease-in;
+  margin-right: 2px;
+}
+
+.gralinfo:hover {
+  border: 5px solid greenyellow;
 }
 
 .extrainfo {
-  height: 90vh;
+  height: 100%;
   width: 80vw;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  background: #eecda3; 
-  background: -webkit-linear-gradient(
-    to left,
-    #eecda3,
-    #ef629f
-  );
-  background: linear-gradient(to left, #eecda3, #ef629f);
-  border: 1px solid #fff;
   padding: 20px;
   overflow: auto;
+  border: 5px solid #bf9a78;
+  transition: border 0.5s ease-in;
+}
+
+.extrainfo:hover {
+  border: 5px solid greenyellow;
 }
 
 .img-artist {
-  height: 30%;
-  width: 60%;
-  border-radius: 100px;
+  height: 20vh;
+  width: 20vh;
+  border-radius: 10px;
+}
+
+.img-album {
+  margin: 2vh;
+  height: 30vh;
+  width: 30vh;
 }
 
 .album {
-  display:flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  align-items: self-start;
-  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.album img {
 
-  height: 70px;
-  width: 70px;
+@media (max-width: 1000px) {
+  .about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gralinfo {
+    margin-top: 10px;
+    height: 50vh;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vh;
+    color: #282828;
+  }
+  .extrainfo {
+    height: 50%;
+    width: 95%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    
+  }
 }
 </style>
